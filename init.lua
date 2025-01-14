@@ -159,6 +159,9 @@ vim.opt.scrolloff = 10
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Open file explorer at current file
+vim.keymap.set('n', '<leader>e', ':Ex<CR>', { noremap = true, desc = 'Open file [E]xplorer' })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
