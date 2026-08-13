@@ -724,17 +724,36 @@ require('lazy').setup({
           lsp_format_opt = 'fallback'
         end
         return {
-          timeout_ms = 500,
+          -- `mix format` boots the Mix project before it formats, which measures
+          -- ~360ms here. 500 left no headroom, and `notify_on_error = false`
+          -- means an overrun would drop the format with no message at all.
+          timeout_ms = 2000,
           lsp_format = lsp_format_opt,
         }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        -- `mix format` reads .formatter.exs, so it picks up per-project plugins
+        -- and :import_deps that no editor-side indenter can reproduce.
+        elixir = { 'mix' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      },
+      formatters = {
+        mix = {
+          -- Conform resolves cwd to the nearest mix.exs, which in an umbrella is
+          -- the app directory. Deps install at the umbrella root, so formatter
+          -- plugins named in .formatter.exs cannot load from the app dir and
+          -- `mix format` exits 1 with empty stdout — indistinguishable from
+          -- doing nothing. mix.lock exists only at the root.
+          -- Resolved lazily: `opts` is built before conform is on the rtp.
+          cwd = function(self, ctx)
+            return require('conform.util').root_file { 'mix.lock' }(self, ctx)
+          end,
+        },
       },
     },
   },
