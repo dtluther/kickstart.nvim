@@ -711,7 +711,11 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      -- A formatter that exits non-zero produces no output, which is
+      -- indistinguishable from a save that simply had nothing to format.
+      -- mix format does this whenever a file has a syntax error, and did it
+      -- for every Elixir save until its cwd was fixed.
+      notify_on_error = true,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
