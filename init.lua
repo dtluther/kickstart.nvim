@@ -947,7 +947,13 @@ require('lazy').setup({
     build = ':TSUpdate',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     config = function()
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local parsers = {
+        'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
+        -- Languages this machine actually works in, so they are not compiled
+        -- on first open. Anything else still installs on demand below.
+        'eex', 'elixir', 'heex', 'go', 'javascript', 'json', 'python', 'ruby',
+        'sql', 'terraform', 'tsx', 'typescript', 'yaml',
+      }
       require('nvim-treesitter').install(parsers)
 
       -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
