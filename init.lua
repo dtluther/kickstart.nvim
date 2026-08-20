@@ -948,11 +948,32 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     config = function()
       local parsers = {
-        'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
         -- Languages this machine actually works in, so they are not compiled
         -- on first open. Anything else still installs on demand below.
-        'eex', 'elixir', 'heex', 'go', 'javascript', 'json', 'python', 'ruby',
-        'sql', 'terraform', 'tsx', 'typescript', 'yaml',
+        'eex',
+        'elixir',
+        'heex',
+        'go',
+        'javascript',
+        'json',
+        'python',
+        'ruby',
+        'sql',
+        'terraform',
+        'tsx',
+        'typescript',
+        'yaml',
       }
       require('nvim-treesitter').install(parsers)
 
